@@ -1,6 +1,4 @@
 from app.core.config import settings
-from app.database.registry import DATABASE_REGISTRY
-
 
 class DatabaseConfig:
     
@@ -9,6 +7,8 @@ class DatabaseConfig:
         self.connection_params = self._get_connection_params()
     
     def _detect_database_type(self) -> str:
+        # INFO: Avoid circular import
+        from app.database.registry import DATABASE_REGISTRY
 
         db_type = settings.DB_TYPE
         if db_type and db_type in DATABASE_REGISTRY:
