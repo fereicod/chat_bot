@@ -1,14 +1,14 @@
-from openai import OpenAI
+import ollama
 
-API_KEY = "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"
+model = "phi3:mini"
 
-client = OpenAI(api_key=API_KEY)
+prompt = input("Enter your prompt: ")
 
-response = client.responses.create(
-    model="gpt-4o",
-    input="Write a short bedtime story about a unicorn."
-)
+meesage = {
+    "role": "user",  
+    "content": prompt
+}
 
-print(response.output_text)
-
-
+response = ollama.chat(model=model, messages=[meesage])
+message = response.message.content
+print(f"Response: {message}")
