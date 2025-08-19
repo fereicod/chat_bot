@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     MYSQL_DATABASE: str
     MYSQL_PORT: int
 
+    GEMINI_API_KEY: str
+    GEMINI_MODEL: str
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8"
