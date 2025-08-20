@@ -69,12 +69,19 @@ Ensure you have the following tools installed on your local system:
 ## ▶️ Makefile Commands
 This project includes a `Makefile` to simplify common development tasks.
 
-- `make`: Shows a list of all available commands.
-- `make install`: Installs dependencies and builds the Docker images.
-- `make run`: Starts all services (API and database) in detached mode.
-- `make down`: Stops and removes the containers of the running services.
-- `make test`: Runs the automated test suite.
-- `make clean`: Stops the services, and removes associated containers and volumes.
+- Usage:
+  - `make`: Shows a list of all available commands.
+
+- Dependencies
+  - `make install` : Installs dependencies
+
+- Testing
+  - `make test` : Runs the automated test suite.
+
+- Service Management
+  - `make run` : Starts all services (API and database) in detached mode.
+  - `make down` : Stops and removes the containers of the running services.
+  - `make clean` : Stops the services, and removes associated containers and volumes.
 
 ## 📝 API Usage
 
