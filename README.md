@@ -73,7 +73,7 @@ This project includes a `Makefile` to simplify common development tasks.
   - `make`: Shows a list of all available commands.
 
 - Dependencies
-  - `make install` : Installs dependencies
+  - `make install` : Install all requirements to run the service.
 
 - Testing
   - `make test` : Runs the automated test suite.
