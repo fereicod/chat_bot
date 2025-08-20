@@ -22,7 +22,7 @@ class Conversation(SQLModel, table=True):
 class Message(SQLModel, table=True):
     __tablename__ = "messages"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int = Field(default=None, primary_key=True)
     conversation_id: str = Field(foreign_key="conversations.id")
     message_role: str = Field(
         sa_column=Column(
