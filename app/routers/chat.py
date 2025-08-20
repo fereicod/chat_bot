@@ -1,14 +1,11 @@
-from fastapi import APIRouter
-from app.schema.chat_schema import MessagenRequest, ConversationResponse, MessageResponse
+from fastapi import APIRouter, Depends
+from app.services.services import get_gemini_service
+from app.schema.api_chat import ConversationRequest, ConversationResponse
 
 router = APIRouter()
 
 @router.post("/conversation", response_model=ConversationResponse)
-def chat_bot(message: MessagenRequest):
-    return ConversationResponse(
-        conversation_id="12345",
-        message=[
-            MessageResponse(role="user", message=message.message),
-            MessageResponse(role="bot", message="This is a response from the bot.")
-        ]
-    )
+def chat_bot(conversation: ConversationRequest, gemini_service_factory=Depends(get_gemini_service)):
+    gemini_service = gemini_service_factory(conversation)
+    messages = gemini_service.send_message(conversation.message)
+    return messages
