@@ -1,7 +1,9 @@
 services:
   
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
     env_file: .env
     depends_on:
       - mysql
@@ -11,6 +13,9 @@ services:
       - ./app:/usr/src/app
 
   mysql:
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
