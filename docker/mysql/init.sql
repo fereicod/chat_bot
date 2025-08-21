@@ -1,7 +1,3 @@
--- Drop existing tables if they exist
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS conversations;
-
 -- Conversations table
 CREATE TABLE IF NOT EXISTS conversations (
     id          VARCHAR(36)  NOT NULL PRIMARY KEY,
