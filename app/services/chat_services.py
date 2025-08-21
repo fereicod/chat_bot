@@ -4,7 +4,9 @@ from app.database.models import Conversation, Message
 from app.schema.api_chat import ConversationRequest, MessageResponse
 from app.services.exceptions import ConversationError, MessageError
 from app.services.decorators import handle_service_errors
+from app.services.constants import MIN_TOPIC_LENGTH, MIN_STANCE_LENGTH, MIN_MESSAGE_LIMIT, MAX_MESSAGE_LIMIT
 import uuid
+
 
 ROLE_MAP: dict[str, Literal["user", "bot"]] = {
     "user": "user",
@@ -26,11 +28,11 @@ class ChatService:
 
     @handle_service_errors(error_to_raise=ConversationError)
     def create_conversation(self, conversation_request: ConversationRequest) -> str:
-        if not conversation_request.topic or len(conversation_request.topic.strip()) < 5:
-            raise ConversationError("Topic must have at least 5 characters")
+        if not conversation_request.topic or len(conversation_request.topic.strip()) < MIN_TOPIC_LENGTH:
+            raise ConversationError(f"Topic must have at least {MIN_TOPIC_LENGTH} characters")
 
-        if not conversation_request.stance or len(conversation_request.stance.strip()) < 20:
-            raise ConversationError("Stance must have at least 20 characters")
+        if not conversation_request.stance or len(conversation_request.stance.strip()) < MIN_STANCE_LENGTH:
+            raise ConversationError(f"Stance must have at least {MIN_STANCE_LENGTH} characters")
 
         if conversation_request.conversation_id:
             try:
@@ -74,11 +76,11 @@ class ChatService:
 
     @handle_service_errors(error_to_raise=MessageError)
     def get_messages_by_conversation_id(self, conversation_id: str, limit: int = 10) -> list[MessageResponse]:
-        if limit <= 0:
-            raise MessageError("Limit must be greater than 0")
-        
-        if limit > 100:
-            raise MessageError("Limit cannot exceed 100 messages")
+        if limit < MIN_MESSAGE_LIMIT:
+            raise MessageError(f"Limit must be at least {MIN_MESSAGE_LIMIT}")
+
+        if limit > MAX_MESSAGE_LIMIT:
+            raise MessageError(f"Limit cannot exceed {MAX_MESSAGE_LIMIT} messages")
         
         conversation = self.get_conversation_by_id(conversation_id)
         messages = self.message_provider.get_messages(conversation.id, limit)
