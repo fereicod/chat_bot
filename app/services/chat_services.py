@@ -1,17 +1,17 @@
-from typing import Literal
 from app.providers.chat_provider import ConversationProvider, MessageProvider
 from app.database.models import Conversation, Message
 from app.schema.api_chat import ConversationRequest, MessageResponse
 from app.services.exceptions import ConversationError, MessageError
 from app.services.decorators import handle_service_errors
-from app.services.constants import MIN_TOPIC_LENGTH, MIN_STANCE_LENGTH, MIN_MESSAGE_LIMIT, MAX_MESSAGE_LIMIT
+from app.services.constants import (
+    ROLE_MAP,
+    MIN_TOPIC_LENGTH,
+    MIN_STANCE_LENGTH,
+    MIN_MESSAGE_LIMIT,
+    MAX_MESSAGE_LIMIT
+)
 import uuid
 
-
-ROLE_MAP: dict[str, Literal["user", "bot"]] = {
-    "user": "user",
-    "model": "bot"
-}
 
 class ChatService:
     def __init__(self, conversation_provider: ConversationProvider, message_provider: MessageProvider):
@@ -59,8 +59,8 @@ class ChatService:
         if not content or not content.strip():
             raise MessageError("Message content cannot be empty")
         
-        if role not in ["user", "model"]:
-            raise MessageError(f"Invalid role '{role}'. Must be 'user' or 'model'")
+        if role not in ROLE_MAP:
+            raise MessageError(f"Invalid role '{role}'. Must be one of {list(ROLE_MAP.keys())}")
         
         conversation = self.get_conversation_by_id(conversation_id)
         
