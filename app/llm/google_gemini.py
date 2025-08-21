@@ -29,7 +29,7 @@ class GoogleGeminiService:
         
         chat_session = self._create_chat_session(conversation_history, conversation.stance)
         response = chat_session.send_message(message.strip())
-        
+
         if not response or not response.text or not response.text.strip():
             raise GeminiServiceError("Gemini API returned empty response")
         
@@ -75,7 +75,7 @@ class GoogleGeminiService:
                 config.system_instruction.append(types.Part.from_text(text=stance))
             else:
                 raise GeminiServiceError("config.system_instruction must be a list to append items")
-            print(f"Config: {config}")
+
             chat_session = self.client.chats.create(
                 model=self.model,
                 config=config,
@@ -88,16 +88,15 @@ class GoogleGeminiService:
 
     def _convert_history_to_gemini_format(self, messages: list[MessageResponse]) -> list[types.Content]:
         history = []
-        print(f"History: {messages}")
         for msg in messages:
             if not hasattr(msg, 'role') or not hasattr(msg, 'message'):
                 raise GeminiServiceError("Invalid message format in history")
             
+            role = "model" if msg.role == "bot" else msg.role
             message = (
                 types.UserContent(parts=[types.Part.from_text(text=msg.message)])
                 if msg.role == "user"
-                else types.Content(role=msg.role, parts=[types.Part.from_text(text=msg.message)])
+                else types.Content(role=role, parts=[types.Part.from_text(text=msg.message)])
             )
             history.append(message)
-        print(f"Converted History: {history}")
         return history
