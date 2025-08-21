@@ -11,3 +11,12 @@ class BaseException(Exception):
 
 class DatabaseOperationError(BaseException):
     pass
+
+class EntityCreationError(BaseException):
+    pass
+
+class EntityNotFoundError(BaseException):
+    pass
+
+class EntityFetchError(BaseException):
+    pass
