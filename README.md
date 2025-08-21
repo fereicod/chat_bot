@@ -10,6 +10,8 @@
   - [Starting a Conversation](#starting-a-conversation)
   - [Continuing a Conversation](#continuing-a-conversation)
   - [Response Format](#response-format)
+- [Evidence](#evidence)
+  - [📝 TODO](#-todo)
 
 ---
 
@@ -144,3 +146,13 @@ The response will always include the conversation ID and the history of the last
     ]
 }
 ```
+
+## Evidence
+
+![](https://github.com/fereicod/chat_bot/blob/main/evidence/init_conversation_local.png) ![](https://github.com/fereicod/chat_bot/blob/main/evidence/continue_conversation_local.png)
+![](https://github.com/fereicod/chat_bot/blob/main/evidence/init_conversation_dev.png) ![](https://github.com/fereicod/chat_bot/blob/main/evidence/continue_conversation_dev.png)
+
+### 📝 TODO
+
+- Add testing
+- API security (Token, Auth, ...)
