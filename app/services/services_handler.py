@@ -10,7 +10,7 @@ class ChatServiceHandler(BaseServiceHandler):
         self.message_provider = MessageProvider(self.session)
     
     def _setup_services(self) -> None:
-        self.caht_service = ChatService(self.conversation_provider, self.message_provider)
-    
+        self.chat_service = ChatService(self.conversation_provider, self.message_provider)
+
     def get_services(self) -> ChatService:
-        return self.caht_service
+        return self.chat_service
