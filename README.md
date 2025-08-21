@@ -87,6 +87,8 @@ This project includes a `Makefile` to simplify common development tasks.
 
 The API has a single main endpoint to manage the conversation.
 
+> API Docs: http://localhost:8000/docs
+
 ### Starting a Conversation
 To start a new conversation, send a `POST` request without a `conversation_id`. The first message must define the topic and the bot's stance.
 
