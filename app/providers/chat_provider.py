@@ -15,7 +15,7 @@ class ConversationProvider:
         self.session.refresh(conversation)
         return conversation
 
-    @handle_db_operation(error_to_raise=EntityFetchError)
+    @handle_db_operation(error_to_raise=EntityFetchError, messsage="Unable to find conversation by ID")
     def get_by_id(self, id: str) -> Optional[Conversation]:
         statement = select(Conversation).where(Conversation.id == id)
         result = self.session.exec(statement).first()
