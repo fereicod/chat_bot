@@ -4,7 +4,7 @@ import sys
 logging.getLogger("chatbot_logger").handlers.clear()
 
 logger = logging.getLogger("chatbot_logger")
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.DEBUG)
 
 handler = logging.StreamHandler(sys.stdout)
 
