@@ -52,21 +52,45 @@ install:  ## Install all requirements to run the service.
 ##@ Testing
 .PHONY: test
 test:  ## Runs the automated test suite.
+	@echo "🔍 Running tests..."
 	uv run pytest
 
 ##@ Service Management
 .PHONY: run
 run:  ## Starts all services (API and database) in detached mode.
 	docker compose up -d
+	@echo "✅ Services started successfully."
 
 .PHONY: run-build
 run-build:  ## Build and run with logs visible
+	@echo "🚀 Building and starting all services with logs..."
 	docker compose up --build
+
+.PHONY: run-reset-db
+run-reset-db:  ## Build all services and reset the database
+	docker compose up --build -d
+	@echo "⏳ Waiting a few seconds for MySQL to start..."
+	@sleep 5
+	docker compose exec -T mysql /docker-entrypoint-initdb.d/run-reset.sh
+	@echo "✅ Services started and database reset successfully."
+
+.PHONY: up-logs
+up-logs:  ## Show logs of all running services
+	@echo "📋 Showing logs of all running services..."
+	docker compose logs -f
 
 .PHONY: down
 down:  ## Stops and removes the containers of the running services.
+	@echo "🔴 Stopping services..."
 	docker compose down
 
 .PHONY: clean
-clean: down  ## Stops the services, and removes associated containers and volumes.
-	docker system prune -f
+clean: down  ## Stops the services and removes associated containers and volumes
+	@echo "⚠️  This will remove all containers AND volumes for this project!"
+	@read -p "Are you sure? (y/N): " confirm; \
+	if [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]; then \
+		docker compose down -v; \
+		echo "✅ Containers and volumes removed."; \
+	else \
+		echo "❌ Aborted."; \
+	fi
