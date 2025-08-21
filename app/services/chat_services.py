@@ -27,7 +27,7 @@ class ChatService:
         return conversation
 
     @handle_service_errors(error_to_raise=ConversationError)
-    def create_conversation(self, conversation_request: ConversationRequest) -> str:
+    def create_conversation(self, conversation_request: ConversationRequest) -> Conversation:
         if not conversation_request.topic or len(conversation_request.topic.strip()) < MIN_TOPIC_LENGTH:
             raise ConversationError(f"Topic must have at least {MIN_TOPIC_LENGTH} characters")
 
@@ -52,7 +52,7 @@ class ChatService:
         if not new_conversation:
             raise ConversationError("Failed to create conversation in database")
         
-        return conversation.id
+        return conversation
             
     @handle_service_errors(error_to_raise=MessageError)
     def create_message(self, conversation_id: str, role: str, content: str) -> None:
